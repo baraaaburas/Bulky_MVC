@@ -19,7 +19,8 @@ namespace BulkyWeb.Areas.Admin.Controllers
             List<Product> products = _unitOfWork.Product.GetAll().ToList();
             return View(products);
         }
-        public IActionResult Create()
+        //Update and Insert => Upserrt
+        public IActionResult Upsert(int? id)
         {
             ProductVM productVM = new()
             {
@@ -29,15 +30,21 @@ namespace BulkyWeb.Areas.Admin.Controllers
                    Text = u.Name,
                    Value = u.Id.ToString()
                }),
-            Product = new Product()
+                Product = new Product()
             };
-            return View(productVM);
+            if (id == null || id == 0)
+            {
+                return View(productVM);
+            }
+            else
+            {
+                productVM.Product = _unitOfWork.Product.Get(o => o.Id == id);
+                return View(productVM);
+            }
         }
-    
 
-        
         [HttpPost]
-        public IActionResult Create(ProductVM productVM)
+        public IActionResult Upsert(ProductVM productVM, IFormFile file)
         {
             if (ModelState.IsValid)
             {
@@ -55,8 +62,8 @@ namespace BulkyWeb.Areas.Admin.Controllers
                              Text = u.Name,
                              Value = u.Id.ToString()
                          });
-         
-            return View(productVM);
+
+                return View(productVM);
             }
         }
         public IActionResult Edit(int? id)
