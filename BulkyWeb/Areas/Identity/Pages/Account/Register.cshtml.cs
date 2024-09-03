@@ -212,7 +212,15 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                     }
                     else
                     {
+                        if(User.IsInRole(StaticDitails.Role_Admin))
+                        {
+                            TempData["success"] = "New User Created Successfully";
+                        }
+                        else
+                        {
                         await _signInManager.SignInAsync(user, isPersistent: false);
+
+                        }
                         return LocalRedirect(returnUrl);
                     }
                 }
