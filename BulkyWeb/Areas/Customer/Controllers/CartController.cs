@@ -2,6 +2,7 @@
 using Bulky.Models;
 using Bulky.Models.ViewModels;
 using Bulky.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using System.Security.Claims;
@@ -9,6 +10,7 @@ using System.Security.Claims;
 namespace BulkyWeb.Areas.Customer.Controllers
 {
 	[Area("customer")]
+	[Authorize]
 	public class CartController : Controller
 	{
 		private IUnitOfWork _unitOfWork;
